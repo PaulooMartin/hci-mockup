@@ -1,0 +1,536 @@
+/* Desktop only: the layout never shrinks below 1280px and has no media queries. */
+
+:root {
+  --navy: #1a2754;
+  --text: #1f232b;
+  --muted: #5a6170;
+  --red: #d90000;
+  --red-dark: #c00000;
+  --green: #008000;
+  --border: #cfcfcf;
+  --border-light: #e5e7eb;
+  --grey-100: #eeeeee;
+  --grey-200: #d9d9d9;
+  --active-bg: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 1280px;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  color: var(--text);
+  background: #fff;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- Shell ---------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  height: 60px;
+  padding: 0 24px;
+  background: var(--navy);
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+
+.sidebar {
+  flex: 0 0 200px;
+  min-width: 0;
+  padding: 20px 16px;
+  border-right: 1px solid var(--border-light);
+}
+
+/* A bold label may be wider than the sidebar: the highlight grows instead of the sidebar. */
+.nav-link {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  align-items: center;
+  gap: 10px;
+  height: 34px;
+  margin-bottom: 4px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.nav-link::before {
+  content: "";
+  flex: 0 0 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c9ccd3;
+}
+
+.nav-link:hover {
+  background: #f3f4f6;
+}
+
+.nav-link.active {
+  background: var(--active-bg);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.nav-link.active::before {
+  background: var(--green);
+}
+
+/* Payroll Reports turns red while the chosen employee has an ongoing report. */
+.nav-link.alert {
+  color: var(--red);
+}
+
+.nav-link.alert::before {
+  background: var(--red);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 24px 28px 28px;
+}
+
+h1 {
+  margin: 0 0 20px;
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+/* ---------- Selection form (no employee chosen) ---------- */
+
+.picker {
+  display: grid;
+  grid-template-columns: 172px 1fr;
+  align-items: center;
+  row-gap: 70px;
+  margin: 216px 0 0;
+  padding: 0 24px;
+  font-size: 29px;
+}
+
+.picker label {
+  white-space: nowrap;
+}
+
+.combobox {
+  position: relative;
+}
+
+.picker input,
+.picker select {
+  width: 100%;
+  height: 60px;
+  padding: 0 12px;
+  border: 1px solid #444;
+  border-radius: 0;
+  background: #fff;
+  font-size: inherit;
+  outline: 0;
+}
+
+.picker input:focus,
+.picker select:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 1px var(--navy);
+}
+
+.picker input::placeholder {
+  color: #d0d0d0;
+}
+
+.picker select {
+  appearance: none;
+  padding-right: 48px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='14'%3E%3Cpath d='M0 0h18L9 14z' fill='%23222'/%3E%3C/svg%3E") no-repeat right 16px center;
+  cursor: pointer;
+}
+
+/* The placeholder option is the only invalid value. */
+.picker select:invalid {
+  color: #d0d0d0;
+}
+
+.picker option {
+  color: var(--text);
+}
+
+.picker .menu {
+  left: 0;
+  font-size: 16px;
+}
+
+.picker .menu button {
+  padding: 10px 14px;
+}
+
+.btn-access {
+  grid-column: 1 / -1;
+  justify-self: center;
+  height: 66px;
+  margin-top: -23px; /* 47px below the last field instead of the 70px row gap */
+  padding: 0 17px;
+  border: 0;
+  background: var(--grey-200);
+  font-size: 29px;
+  cursor: pointer;
+}
+
+.btn-access:hover:not(:disabled) {
+  background: #cacaca;
+}
+
+.btn-access:disabled {
+  color: #9a9a9a;
+  cursor: not-allowed;
+}
+
+/* ---------- Toolbar (employee chosen) and dropdowns ---------- */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  height: 33px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.field-period {
+  width: auto;
+  margin-left: auto;
+}
+
+.btn-change {
+  height: 31px;
+  padding: 0 8px;
+  border: 0;
+  background: #c4c4c4;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-change:hover {
+  background: #b5b5b5;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  content: "▾";
+  margin-left: 8px;
+  font-size: 9px;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 10;
+  min-width: 100%;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  padding: 7px 14px;
+  border: 0;
+  background: none;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.menu button:hover,
+.menu button:focus-visible {
+  background: #f1f2f4;
+  outline: 0;
+}
+
+.menu button.selected {
+  font-weight: 600;
+}
+
+.menu .menu-empty {
+  padding: 7px 14px;
+  color: var(--muted);
+}
+
+.filter-row {
+  display: flex;
+  margin-top: 17px;
+}
+
+.dropdown-filters .dropdown-toggle {
+  gap: 8px;
+  height: 33px;
+  padding: 0 16px;
+  font-size: 13px;
+}
+
+/* Funnel icon */
+.dropdown-filters .dropdown-toggle::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23222' stroke-width='2.2' stroke-linejoin='round'%3E%3Cpath d='M3 4h18l-7 8.5V19l-4 2v-8.5z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.dropdown-filters .dropdown-toggle::after {
+  content: "▼";
+  margin-left: 4px;
+  font-size: 11px;
+}
+
+.dropdown-filters .menu {
+  left: 0;
+  right: auto;
+}
+
+/* ---------- Dashboard cards ---------- */
+
+.card {
+  margin-top: 16px;
+  padding: 16px 17px 15px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.toolbar + .card {
+  margin-top: 20px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+  margin: 15px 0 13px;
+}
+
+.stats a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.stats a.alert {
+  color: var(--red);
+}
+
+.card-link {
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Tables ---------- */
+
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.filter-row + .table {
+  margin-top: 18px;
+}
+
+.table th,
+.table td {
+  height: 47px;
+  padding: 0;
+  font-weight: 400;
+  text-align: center;
+}
+
+.table th {
+  background: var(--grey-200);
+}
+
+.table td {
+  background: var(--grey-100);
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 24px;
+  text-align: left;
+}
+
+.table-attendance th:nth-child(1) { width: 38.4%; }
+.table-attendance th:nth-child(2) { width: 9.8%; }
+.table-attendance th:nth-child(3) { width: 10.8%; }
+.table-attendance th:nth-child(4) { width: 10.6%; }
+.table-attendance th:nth-child(5) { width: 9%; }
+.table-attendance th:nth-child(6) { width: 8.6%; }
+.table-attendance th:nth-child(7) { width: 12.8%; }
+
+.table-records th:nth-child(1) { width: 40%; }
+.table-records th:nth-child(2) { width: 34%; }
+.table-records th:nth-child(3) { width: 26%; }
+
+.table-records th:last-child,
+.table-records td:last-child {
+  padding-right: 24px;
+  text-align: right;
+}
+
+.table .status-alert {
+  color: var(--red);
+}
+
+.table .total {
+  font-weight: 700;
+}
+
+.details > :first-child {
+  margin-top: 29px;
+}
+
+.table tr.clickable {
+  cursor: pointer;
+}
+
+.table tr.clickable:hover td,
+.table tr.clickable:focus-visible td {
+  background: #e2e2e2;
+}
+
+.table tr.clickable:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: -2px;
+}
+
+.table td.empty {
+  padding: 0 24px;
+  color: var(--muted);
+  text-align: left;
+}
+
+/* ---------- Detail pages ---------- */
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.detail-header h1 {
+  margin: 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background: var(--red-dark);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 24px;
+  background: var(--grey-200);
+  color: #111;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #cacaca;
+}
+
+.btn-back {
+  margin-left: auto;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 24px;
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+.summary dt {
+  font-weight: 600;
+}
+
+.summary dd {
+  margin: 0;
+}

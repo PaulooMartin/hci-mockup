@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title>Employee Complaints · Payroll</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar"></header>
+  <div class="layout">
+    <nav class="sidebar">
+      <a class="nav-link" href="index.html" data-nav="dashboard">Dashboard</a>
+      <a class="nav-link" href="attendance.html" data-nav="attendance">Attendance Record</a>
+      <a class="nav-link" href="payslips.html" data-nav="payslips">Payslips</a>
+      <a class="nav-link active" href="complaints.html" data-nav="complaints">Employee Complaints</a>
+    </nav>
+    <main class="content">
+      <form class="picker" id="picker" hidden>
+        <label for="picker-employee">Employee:</label>
+        <div class="combobox">
+          <input id="picker-employee" type="text" placeholder="Employee name or number..." autocomplete="off" spellcheck="false">
+          <ul class="menu" hidden></ul>
+        </div>
+        <label for="picker-period">Pay Period:</label>
+        <select id="picker-period" required>
+          <option value="" disabled selected hidden>Select a pay period...</option>
+        </select>
+        <button class="btn-access" type="submit" disabled>Access Complaints</button>
+      </form>
+      <div id="page" hidden>
+        <h1>Employee Complaints</h1>
+        <div class="toolbar">
+          <div class="field" id="employee-field"></div>
+          <button class="btn-change" id="change-employee" type="button">Change Employee</button>
+          <div class="field field-period" id="period-field"></div>
+          <button class="btn-change" id="change-period" type="button">Change Pay Period</button>
+        </div>
+        <div id="results"></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/complaints.js"></script>
+</body>
+</html>
